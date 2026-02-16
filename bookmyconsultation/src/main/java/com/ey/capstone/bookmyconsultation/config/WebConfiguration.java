@@ -11,7 +11,7 @@ import com.ey.capstone.bookmyconsultation.servlet.CorsFilter;
 import com.ey.capstone.bookmyconsultation.servlet.RequestContextFilter;
 
 @Configuration
-@ComponentScan("com.upgrad.bookmyconsultation.controller")
+@ComponentScan("com.ey.capstone.bookmyconsultation.controller")
 //@ServletComponentScan("com.upgrad.bookmyconsultation.servlet")
 public class WebConfiguration {
 

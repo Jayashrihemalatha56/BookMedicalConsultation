@@ -10,7 +10,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@ComponentScan("com.upgrad.bookmyconsultation.controller")
+@ComponentScan("com.ey.capstone.bookmyconsultation.controller")
 @EnableSwagger2
 public class SwaggerConfiguration {
 
