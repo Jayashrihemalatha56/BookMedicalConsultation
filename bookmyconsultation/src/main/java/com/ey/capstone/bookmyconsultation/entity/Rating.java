@@ -22,3 +22,4 @@ public class Rating {
 	private Integer rating;
 	private String comments;
 }
+
