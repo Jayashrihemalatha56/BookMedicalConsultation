@@ -15,6 +15,7 @@ import com.ey.capstone.bookmyconsultation.util.ValidationUtils;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -34,6 +35,15 @@ public class UserService {
 		return user;
 	}
 
+	 public User createUser(User user) throws InvalidInputException {
+		ValidationUtils.validate(user);
+		user.setEmailId(UUID.randomUUID().toString());
+		encryptPassword(user);
+		userRepository.save(user);
+		return user;
+		
+	 }
+
 	public User getUser(String id) {
 		return Optional.ofNullable(userRepository.findById(id))
 				.get()
@@ -51,4 +61,6 @@ public class UserService {
 		newUser.setSalt(encryptedData[0]);
 		newUser.setPassword(encryptedData[1]);
 	}
+
+   
 }

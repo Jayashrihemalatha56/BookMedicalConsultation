@@ -47,7 +47,7 @@ public class AppointmentService {
 		//tip: use Optional.ofNullable(). Use orElseThrow() method when Optional.ofNullable() throws NULL
 	
 	public List<Appointment> getAppointmentsForUser(String userId) {
-		return appointmentRepository.findByUserId(userId);
+		return Appointment.findByUserId(userId);
 	}
 
     public Appointment bookAppointment(Appointment appointment) {
