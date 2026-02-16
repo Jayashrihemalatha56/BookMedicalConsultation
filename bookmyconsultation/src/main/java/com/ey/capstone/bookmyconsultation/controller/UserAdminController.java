@@ -1,5 +1,7 @@
 package com.ey.capstone.bookmyconsultation.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,4 +57,9 @@ public class UserAdminController {
 	}
 
 
+	@GetMapping("/users")
+	public ResponseEntity<List<User>> getAllUsers() {
+    	List<User> users = userService.getAllUsers();
+    	return ResponseEntity.ok(users);
+}
 }
