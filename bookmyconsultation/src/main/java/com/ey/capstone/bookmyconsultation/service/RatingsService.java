@@ -30,12 +30,12 @@ public class RatingsService {
         // Save the rating
         ratingsRepository.save(rating);
 
-        // Fetch doctor
+        // Fetch the doctor
         String doctorId = rating.getDoctorId();
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(ResourceUnAvailableException::new);
 
-        // Get all ratings for this doctor
+        // Get all ratings for the doctor
         List<Rating> ratings = ratingsRepository.findByDoctorId(doctorId);
 
         // Calculate new average
