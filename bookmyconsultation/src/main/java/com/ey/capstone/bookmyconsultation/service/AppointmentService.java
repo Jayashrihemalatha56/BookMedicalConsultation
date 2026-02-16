@@ -20,7 +20,8 @@ import java.util.Optional;
 public class AppointmentService {
 
 	
-	
+	@Autowired
+    private AppointmentRepository appointmentRepository;
 	//mark it autowired
 	//create an instance of AppointmentRepository called appointmentRepository
 
@@ -48,4 +49,10 @@ public class AppointmentService {
 	public List<Appointment> getAppointmentsForUser(String userId) {
 		return appointmentRepository.findByUserId(userId);
 	}
+
+    public Appointment bookAppointment(Appointment appointment) {
+    }
+
+    public Appointment getAppointment(String appointmentId) {
+    }
 }
