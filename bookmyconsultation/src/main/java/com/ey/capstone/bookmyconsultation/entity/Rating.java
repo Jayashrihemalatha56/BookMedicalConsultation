@@ -23,4 +23,3 @@ public class Rating {
 	private String comments;
 }
 
-11111111111111111111
