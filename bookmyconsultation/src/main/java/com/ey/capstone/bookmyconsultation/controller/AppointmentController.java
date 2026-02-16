@@ -21,6 +21,16 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentService appointmentService;
 
+    @PostMapping("/bookAppointment")
+    public ResponseEntity<Appointment> bookAppointment(@RequestBody Appointment appointment){
+        Appointment savedAppointment = appointmentService.bookAppointment(appointment);
+        return ResponseEntity.status(201).body(savedAppointment);
+    }
+    @GetMapping("/getAppointment/{appointmentId}")
+    public ResponseEntity<Appointment> getAppointment(@PathVariable String appointmentId){
+        Appointment response=appointmentService.getAppointment(appointmentId);
+        return ResponseEntity.ok(response);
+    }
 
 	//create a method post method named bookAppointment with return type ReponseEntity
 		//method has paramter of type Appointment, use RequestBody Annotation for mapping
