@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -32,5 +34,9 @@ public class Appointment {
 	private String createdDate;
 	private String symptoms;
 	private String priorMedicalHistory;
+    public static List<Appointment> findByUserId(String userId2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByUserId'");
+    }
 
 }
