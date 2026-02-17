@@ -33,7 +33,7 @@ public class Doctor {
 	private Speciality speciality;
 	private String dob;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "address_id")
 	private Address address;
 	private String mobile;
 	private String emailId;
