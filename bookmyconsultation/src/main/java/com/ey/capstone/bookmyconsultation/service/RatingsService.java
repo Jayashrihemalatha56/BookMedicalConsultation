@@ -24,16 +24,11 @@ public class RatingsService {
  
     /**
      * Submits a rating for a doctor and updates the doctor's average rating.
-     * - Ensures ratingId exists (generate if absent)
-     * - Ensures the doctor exists
-     * - Saves the rating
-     * - Recomputes average rating from all ratings for that doctor
-     * - Updates doctor's rating
      */
     @Transactional
     public void submitRatings(Rating rating) {
  
-        // 1) Validate required fields minimally (you can add more if needed)
+        // 1) Validate required fields
         if (rating == null) {
             throw new IllegalArgumentException("Rating payload cannot be null");
         }
@@ -53,13 +48,13 @@ public class RatingsService {
         Doctor doctor = doctorRepository.findById(rating.getDoctorId())
                 .orElseThrow(ResourceUnAvailableException::new);
  
-        // 4) Save the rating
+        // 4) Save rating
         ratingsRepository.save(rating);
  
-        // 5) Fetch all ratings for this doctor
+        // 5) Fetch all ratings of this doctor
         List<Rating> ratings = ratingsRepository.findByDoctorId(doctor.getId());
  
-        // 6) Compute new average (ignore null rating entries just in case)
+        // 6) Compute new average
         DoubleSummaryStatistics stats = ratings.stream()
                 .map(Rating::getRating)
                 .filter(v -> v != null)
@@ -68,9 +63,8 @@ public class RatingsService {
  
         double average = stats.getCount() == 0 ? 0.0 : stats.getAverage();
  
-        // 7) Update doctor's rating and persist
+        // 7) Update doctor rating
         doctor.setRating(average);
         doctorRepository.save(doctor);
     }
 }
- 
