@@ -47,7 +47,7 @@ public class UserAdminController {
 	@PostMapping("/create")
 	public ResponseEntity<User> createUser(@RequestBody final User user) throws InvalidInputException {
 		final User createdUser = userService.createUser(user);
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+		return ResponseEntity.ok(createdUser);
 	}
 	
 	
