@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ey.capstone.bookmyconsultation.entity.Address;
 @Repository
-public interface AddressRepository extends CrudRepository<Address, String>{
+public interface AddressRepository extends CrudRepository<Address, Long>{
 }
 //mark it as repository
 //create an interface AddressRepository that extends CrudRepository
