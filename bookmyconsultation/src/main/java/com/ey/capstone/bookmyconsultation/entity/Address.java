@@ -15,8 +15,8 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Address {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private String id;
 	private String addressLine1;
 	private String addressLine2;
 	private String city;
