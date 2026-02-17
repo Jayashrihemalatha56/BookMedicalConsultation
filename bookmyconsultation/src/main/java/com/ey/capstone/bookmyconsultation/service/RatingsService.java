@@ -1,5 +1,6 @@
 package com.ey.capstone.bookmyconsultation.service;
 
+ 
 import com.ey.capstone.bookmyconsultation.entity.Doctor;
 import com.ey.capstone.bookmyconsultation.entity.Rating;
 import com.ey.capstone.bookmyconsultation.exception.ResourceUnAvailableException;
@@ -59,17 +60,20 @@ public class RatingsService {
         // 5) Fetch all ratings for this doctor
         List<Rating> ratings = ratingsRepository.findByDoctorId(doctor.getId());
 
-        // 6) Compute new average (ignore null rating entries just in case)
-        DoubleSummaryStatistics stats = ratings.stream()
-                .map(Rating::getRating)
-                .filter(v -> v != null)
-                .mapToDouble(Integer::doubleValue)
-                .summaryStatistics();
-
-        double average = stats.getCount() == 0 ? 0.0 : stats.getAverage();
+        // Calculate new average
+        double avg = ratings.stream()
+                .filter(r -> r.getRating() != null)
+                .mapToInt(Rating::getRating)
+                .average()
+                .orElse(0.0);
 
         // 7) Update doctor's rating and persist
-        doctor.setRating(average);
+        doctor.setRating(avg);
         doctorRepository.save(doctor);
     }
 }
+ 
+      
+ 
+ 
+ 

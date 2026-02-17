@@ -1,9 +1,11 @@
-package com.upgrad.bookmyconsultation;
+package com.ey.capstone.bookmyconsultation;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
+@SpringBootConfiguration
 class BookmyconsultationApplicationTests {
 
 	@Test

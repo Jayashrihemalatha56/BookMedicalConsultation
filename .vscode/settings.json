@@ -1,6 +1,7 @@
 {
     "java.debug.settings.onBuildFailureProceed": true,
     "java.compile.nullAnalysis.mode": "automatic",
+<<<<<<< HEAD
     "sqltools.connections": [
         {
             "mysqlOptions": {
@@ -18,4 +19,7 @@
             "password": "Strong@123"
         }
     ]
+=======
+    "java.configuration.updateBuildConfiguration": "interactive"
+>>>>>>> 9035dc3f7bee00286ff7f80f35777bf69b89e9f7
 }
