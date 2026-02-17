@@ -42,9 +42,6 @@ public class UserAdminController {
 		//register the user
 	
 		//return http response with status set to OK
-	
-	
-
 
 	@GetMapping("/{userId}/appointments")
 	public ResponseEntity getAppointmentForUser(@PathVariable("userId") String userId) {
