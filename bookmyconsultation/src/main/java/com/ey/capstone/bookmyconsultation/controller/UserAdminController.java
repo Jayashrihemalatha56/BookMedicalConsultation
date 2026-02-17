@@ -29,6 +29,11 @@ public class UserAdminController {
 	@Autowired
 	private AppointmentService appointmentService;
 
+	@PostMapping("/register")
+	public ResponseEntity<User> registerUser(@RequestBody User user) throws InvalidInputException {
+ 		User registeredUser = userService.register(user);
+    	return ResponseEntity.ok(registeredUser);
+}
 
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<User> getUser(@RequestHeader("authorization") String accessToken,
