@@ -16,8 +16,6 @@ import javax.persistence.Id;
 @AllArgsConstructor
 //create a class named User
 public class User {
-	@Id
-	private String userId;
 	//create firstName of type String
 	private String firstName;
 	//create lastName of type String
@@ -27,6 +25,7 @@ public class User {
 	//create mobile of type String
 	private String mobile;
 	//create primary key 'emailId' of type String
+	@Id
 	private String emailId;
 	//create password of type String
 	private String password;
