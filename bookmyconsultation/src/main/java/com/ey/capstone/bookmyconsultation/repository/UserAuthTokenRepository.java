@@ -8,7 +8,7 @@ import com.ey.capstone.bookmyconsultation.entity.UserAuthToken;
 import javax.validation.constraints.NotNull;
 
 @Repository
-public interface UserAuthTokenRepository extends CrudRepository<UserAuthToken, String> {
+public interface UserAuthTokenRepository extends CrudRepository<UserAuthToken, Long> {
 
 	UserAuthToken findByUserEmailId(@NotNull String userId);
 
