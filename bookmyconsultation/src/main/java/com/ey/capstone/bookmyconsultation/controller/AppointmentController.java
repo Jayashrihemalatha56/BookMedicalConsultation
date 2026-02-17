@@ -22,8 +22,8 @@ public class AppointmentController {
 	private AppointmentService appointmentService;
 
     @PostMapping("/bookAppointment")
-    public ResponseEntity<Appointment> bookAppointment(@RequestBody Appointment appointment){
-        Appointment savedAppointment = appointmentService.bookAppointment(appointment);
+    public ResponseEntity<Appointment> bookAppointment(@RequestBody Appointment appointment)throws SlotUnavailableException,InvalidInputException{
+        Appointment savedAppointment = appointmentService.appointment(appointment);
         return ResponseEntity.status(201).body(savedAppointment);
     }
     @GetMapping("/getAppointment/{appointmentId}")

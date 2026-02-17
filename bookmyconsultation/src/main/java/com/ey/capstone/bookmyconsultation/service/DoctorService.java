@@ -17,10 +17,7 @@ import com.ey.capstone.bookmyconsultation.util.ValidationUtils;
 
 import springfox.documentation.annotations.Cacheable;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -33,7 +30,25 @@ public class DoctorService {
 	@Autowired
 	private AddressRepository addressRepository;
 
-	
+
+    public Doctor register(Doctor doctor) throws InvalidInputException{
+        ValidationUtils.validate(doctor);
+        if (doctor.getAddress() == null) {
+            throw new InvalidInputException(Collections.singletonList("Check the input"));
+        }
+        doctor.setId(UUID.randomUUID().toString());
+        if(doctor.getSpeciality()==null){
+            doctor.setSpeciality(Speciality.GENERAL_PHYSICIAN);
+        }
+        Address address =doctor.getAddress();
+        Address savedAddress=addressRepository.save(address);
+        doctor.setAddress(savedAddress);
+        return doctorRepository.save(doctor);
+    }
+
+    public Doctor getDoctor(String id) throws ResourceUnAvailableException {
+        return doctorRepository.findById(id).orElseThrow(() -> new ResourceUnAvailableException("Doctor not found"));
+    }
 	//create a method register with return type and parameter of typeDoctor
 	//declare InvalidInputException for the method
 		//validate the doctor details
