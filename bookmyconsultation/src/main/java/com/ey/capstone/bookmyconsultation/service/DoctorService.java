@@ -41,9 +41,12 @@ public class DoctorService {
             doctor.setSpeciality(Speciality.GENERAL_PHYSICIAN);
         }
         Address address =doctor.getAddress();
-        Address savedAddress=addressRepository.save(address);
+        // Address savedAddress=addressRepository.save(address);
+        // doctor.setAddress(savedAddress);
+        // return doctorRepository.save(doctor);
+		Address savedAddress = addressRepository.save(doctor.getAddress());
         doctor.setAddress(savedAddress);
-        return doctorRepository.save(doctor);
+        return doctorRepository.save(doctor);  
     }
 
     public Doctor getDoctor(String id) throws ResourceUnAvailableException {
