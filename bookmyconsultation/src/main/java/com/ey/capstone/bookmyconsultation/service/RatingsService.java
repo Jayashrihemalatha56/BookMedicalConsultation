@@ -1,41 +1,70 @@
 package com.ey.capstone.bookmyconsultation.service;
-
-import com.ey.cbookmyconsultation.entity.Doctor;
-import com.upgrad.bookmyconsultation.entity.Rating;
-import com.upgrad.bookmyconsultation.repository.DoctorRepository;
-import com.upgrad.bookmyconsultation.repository.RatingsRepository;
+ 
+import com.ey.capstone.bookmyconsultation.entity.Doctor;
+import com.ey.capstone.bookmyconsultation.entity.Rating;
+import com.ey.capstone.bookmyconsultation.exception.ResourceUnAvailableException;
+import com.ey.capstone.bookmyconsultation.repository.DoctorRepository;
+import com.ey.capstone.bookmyconsultation.repository.RatingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
+ 
+import java.util.DoubleSummaryStatistics;
+import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
-
+ 
 @Service
 public class RatingsService {
-
-	@Autowired
-	private ApplicationEventPublisher publisher;
-
-	@Autowired
-	private RatingsRepository ratingsRepository;
-
-	@Autowired
-	private DoctorRepository doctorRepository;
-
-	
-	//create a method name submitRatings with void return type and parameter of type Rating
-	//set a UUID for the rating
-	//save the rating to the database
-	//get the doctor id from the rating object
-	//find that specific doctor with the using doctor id
-	//modify the average rating for that specific doctor by including the new rating
-	//save the doctor object to the database
-	
-	public void submitRatings(Rating rating) {
-		// Implementation to be added
-		rating.setRatingId(UUID.randomUUID().toString());
-		ratingsRepository.save(rating);
-	}
+ 
+    @Autowired
+    private RatingsRepository ratingsRepository;
+ 
+    @Autowired
+    private DoctorRepository doctorRepository;
+ 
+    /**
+     * Submits a rating for a doctor and updates the doctor's average rating.
+     */
+    @Transactional
+    public void submitRatings(Rating rating) {
+ 
+        // 1) Validate required fields
+        if (rating == null) {
+            throw new IllegalArgumentException("Rating payload cannot be null");
+        }
+        if (rating.getDoctorId() == null || rating.getDoctorId().trim().isEmpty()) {
+            throw new IllegalArgumentException("doctorId cannot be null or empty");
+        }
+        if (rating.getRating() == null) {
+            throw new IllegalArgumentException("rating value cannot be null");
+        }
+ 
+        // 2) Ensure ratingId exists
+        if (rating.getRatingId() == null || rating.getRatingId().trim().isEmpty()) {
+            rating.setRatingId(UUID.randomUUID().toString());
+        }
+ 
+        // 3) Ensure doctor exists
+        Doctor doctor = doctorRepository.findById(rating.getDoctorId())
+                .orElseThrow(ResourceUnAvailableException::new);
+ 
+        // 4) Save rating
+        ratingsRepository.save(rating);
+ 
+        // 5) Fetch all ratings of this doctor
+        List<Rating> ratings = ratingsRepository.findByDoctorId(doctor.getId());
+ 
+        // 6) Compute new average
+        DoubleSummaryStatistics stats = ratings.stream()
+                .map(Rating::getRating)
+                .filter(v -> v != null)
+                .mapToDouble(Integer::doubleValue)
+                .summaryStatistics();
+ 
+        double average = stats.getCount() == 0 ? 0.0 : stats.getAverage();
+ 
+        // 7) Update doctor rating
+        doctor.setRating(average);
+        doctorRepository.save(doctor);
+    }
 }

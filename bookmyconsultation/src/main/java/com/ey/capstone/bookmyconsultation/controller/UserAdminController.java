@@ -1,5 +1,7 @@
 package com.ey.capstone.bookmyconsultation.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,11 @@ public class UserAdminController {
 	@Autowired
 	private AppointmentService appointmentService;
 
+	@PostMapping("/register")
+	public ResponseEntity<User> registerUser(@RequestBody User user) throws InvalidInputException {
+ 		User registeredUser = userService.register(user);
+    	return ResponseEntity.ok(registeredUser);
+}
 
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<User> getUser(@RequestHeader("authorization") String accessToken,
@@ -42,11 +49,22 @@ public class UserAdminController {
 		//register the user
 	
 		//return http response with status set to OK
-
+	@PostMapping("/create")
+	public ResponseEntity<User> createUser(@RequestBody final User user) throws InvalidInputException {
+		final User createdUser = userService.createUser(user);
+		return ResponseEntity.ok(createdUser);
+	}
+	
+	
 	@GetMapping("/{userId}/appointments")
 	public ResponseEntity getAppointmentForUser(@PathVariable("userId") String userId) {
 		return ResponseEntity.ok(appointmentService.getAppointmentsForUser(userId));
 	}
 
 
+	@GetMapping("/users")
+	public ResponseEntity<List<User>> getAllUsers() {
+    	List<User> users = userService.getAllUsers();
+    	return ResponseEntity.ok(users);
+}
 }
