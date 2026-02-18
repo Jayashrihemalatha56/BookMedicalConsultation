@@ -32,9 +32,12 @@ public class Doctor {
 	@Enumerated(EnumType.STRING)
 	private Speciality speciality;
 	private String dob;
+	// @OneToOne(cascade = CascadeType.ALL)
+	// @JoinColumn(name = "id")
+	// private Address address;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id")
-	private Address address;
+    @JoinColumn(name = "address_id")  // FK column
+    private Address address;  
 	private String mobile;
 	private String emailId;
 	private String pan;

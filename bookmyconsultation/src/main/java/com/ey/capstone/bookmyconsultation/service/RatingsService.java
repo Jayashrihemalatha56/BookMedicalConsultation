@@ -1,5 +1,5 @@
 package com.ey.capstone.bookmyconsultation.service;
-
+ 
 import com.ey.capstone.bookmyconsultation.entity.Doctor;
 import com.ey.capstone.bookmyconsultation.entity.Rating;
 import com.ey.capstone.bookmyconsultation.exception.ResourceUnAvailableException;
@@ -8,17 +8,17 @@ import com.ey.capstone.bookmyconsultation.repository.RatingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+ 
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.UUID;
-
+ 
 @Service
 public class RatingsService {
-
+ 
     @Autowired
     private RatingsRepository ratingsRepository;
-
+ 
     @Autowired
     private DoctorRepository doctorRepository;
 
@@ -57,7 +57,7 @@ public class RatingsService {
                 .filter(v -> v != null)
                 .mapToDouble(Integer::doubleValue)
                 .summaryStatistics();
-
+ 
         double average = stats.getCount() == 0 ? 0.0 : stats.getAverage();
 
         
@@ -65,6 +65,3 @@ public class RatingsService {
         doctorRepository.save(doctor);
     }
 }
- 
- 
- 
