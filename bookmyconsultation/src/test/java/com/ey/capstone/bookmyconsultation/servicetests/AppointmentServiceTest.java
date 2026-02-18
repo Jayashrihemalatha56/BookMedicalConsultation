@@ -62,7 +62,7 @@ class AppointmentServiceTest {
 
         when(appointmentRepository.findByDoctorIdAndTimeSlotAndAppointmentDate(
                 "DOC-1", "10:00 AM", "2026-02-22"))
-                .thenReturn(new Appointment()); // slot already booked
+                .thenReturn(new Appointment());
 
         assertThrows(SlotUnavailableException.class,
                 () -> appointmentService.appointment(appointment));
@@ -76,7 +76,7 @@ class AppointmentServiceTest {
 
         when(appointmentRepository.findByDoctorIdAndTimeSlotAndAppointmentDate(
                 anyString(), anyString(), anyString()))
-                .thenReturn(null); // slot is free
+                .thenReturn(null);
 
         when(appointmentRepository.save(appointment)).thenReturn(appointment);
 
