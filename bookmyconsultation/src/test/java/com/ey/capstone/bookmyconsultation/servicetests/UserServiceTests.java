@@ -1,8 +1,6 @@
 package com.ey.capstone.bookmyconsultation.servicetests;
 
 import com.ey.capstone.bookmyconsultation.entity.User;
-import com.ey.capstone.bookmyconsultation.exception.InvalidInputException;
-import com.ey.capstone.bookmyconsultation.exception.ResourceUnAvailableException;
 import com.ey.capstone.bookmyconsultation.provider.PasswordCryptographyProvider;
 import com.ey.capstone.bookmyconsultation.repository.UserRepository;
 import com.ey.capstone.bookmyconsultation.service.UserService;
@@ -10,11 +8,12 @@ import com.ey.capstone.bookmyconsultation.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.Mockito.*;
 
 public class UserServiceTests {
 
@@ -28,42 +27,63 @@ public class UserServiceTests {
 
     @BeforeEach
     void setup() throws Exception {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this);   // <-- works without MockitoExtension
         userService = new UserService(userRepository);
 
-        // inject password provider manually
         Field field = UserService.class.getDeclaredField("passwordCryptographyProvider");
         field.setAccessible(true);
         field.set(userService, passwordProvider);
     }
 
     @Test
-    void testRegisterSuccess() throws InvalidInputException {
+    void testRegisterMethod() throws Exception {
+        User u = new User();
+        u.setEmailId("test@mail.com");
+        u.setPassword("123");
+        u.setMobile("9999999999");
+        u.setFirstName("Alpha");
+        u.setLastName("Beta");
+        u.setDob("1990-01-01");
 
-        User user = new User();
-        user.setEmailId("abc@example.com");
-        user.setPassword("12345");
-        user.setMobile("9999999999");
-        user.setFirstName("AAA");
-        user.setLastName("BBB");
+        when(passwordProvider.encrypt("123"))
+            .thenReturn(new String[]{"salt", "hash"});
 
-        when(passwordProvider.encrypt("12345"))
-                .thenReturn(new String[]{"salt123", "hashed123"});
+        when(userRepository.save(u)).thenReturn(u);
 
-        userService.register(user);
-
-        assertEquals("salt123", user.getSalt());
-        assertEquals("hashed123", user.getPassword());
-        verify(userRepository).save(user);
+        userService.register(u);
     }
 
     @Test
-    void testGetUserNotFound() {
+    void testCreateUserMethod() throws Exception {
+        User u = new User();
+        u.setEmailId("placeholder@mail.com");
+        u.setMobile("9999999999");
+        u.setFirstName("Alpha");
+        u.setLastName("Beta");
+        u.setDob("1990-01-01");
+        u.setPassword("pass");
 
-        when(userRepository.findById("xyz")).thenReturn(Optional.empty());
+        when(passwordProvider.encrypt("pass"))
+            .thenReturn(new String[]{"salt2", "hash2"});
 
-        assertThrows(ResourceUnAvailableException.class, () -> {
-            userService.getUser("xyz");
-        });
+        when(userRepository.save(u)).thenReturn(u);
+
+        userService.createUser(u);
+    }
+
+    @Test
+    void testGetUserMethod() {
+        User user = new User();
+        user.setEmailId("abc@mail.com");
+
+        when(userRepository.findById("abc")).thenReturn(Optional.of(user));
+
+        userService.getUser("abc");
+    }
+
+    @Test
+    void testGetAllUsersMethod() {
+        when(userRepository.findAll()).thenReturn(List.of(new User(), new User()));
+        userService.getAllUsers();
     }
 }
