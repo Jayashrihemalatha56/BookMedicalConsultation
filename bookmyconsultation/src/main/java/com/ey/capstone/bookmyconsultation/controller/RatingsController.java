@@ -13,7 +13,7 @@ public class RatingsController {
     private RatingsService ratingsService;
 
     @PostMapping("/ratings")
-    public ResponseEntity<String> submitRatings(@RequestBody Rating rating) { // <-- unescaped
+    public ResponseEntity<String> submitRatings(@RequestBody Rating rating) { 
         ratingsService.submitRatings(rating);
         return ResponseEntity.ok("Rating submitted successfully");
     }
