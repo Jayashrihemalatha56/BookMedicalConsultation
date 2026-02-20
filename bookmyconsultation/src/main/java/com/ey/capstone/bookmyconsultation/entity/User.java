@@ -6,7 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
+
+import com.ey.capstone.bookmyconsultation.enums.Role;
 
 //Mark it with Data, Entity, Builder, NoArgsConstructor, AllArgsConstructor
 @Data
@@ -34,4 +38,6 @@ public class User {
 	//create salt of type String
 	private String salt;
 	//all the mentioned members must be private
+	@Enumerated(EnumType.STRING)
+	private Role role;
 }

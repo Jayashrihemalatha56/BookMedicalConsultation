@@ -18,7 +18,7 @@ public class SwaggerConfiguration {
     public Docket productsApi(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.upgrad.bookmyconsultation"))
+                .apis(RequestHandlerSelectors.basePackage("com.ey.capstone.bookmyconsultation"))
                 .paths(PathSelectors.any())
                 .build();
     }
